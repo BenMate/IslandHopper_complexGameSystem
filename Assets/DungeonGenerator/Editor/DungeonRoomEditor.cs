@@ -12,7 +12,7 @@ namespace DungeonGenerator
     {
         public enum DisplayCategory
         {
-            Enemies, Items, DoorsAndWalls
+            Enemies, Items, DoorsAndWalls, Objects
         }
 
         public DisplayCategory categoryToDisplay;
@@ -32,6 +32,10 @@ namespace DungeonGenerator
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty("boundsOffset"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("boundsSize"));
+
+            EditorGUILayout.Space();
+
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("gizmoSize"));
 
             EditorGUILayout.Space();
 
@@ -55,13 +59,32 @@ namespace DungeonGenerator
                 case DisplayCategory.DoorsAndWalls:
                     DisplayDoorInfo();
                     break;
+
+                case DisplayCategory.Objects:
+                    DisplayObjectsInfo();
+                    break;
+
             }
             serializedObject.ApplyModifiedProperties();
         }
 
+        void DisplayObjectsInfo()
+        {
+            SerializedProperty allowObjectsToSpawn = serializedObject.FindProperty("allowObjectsToSpawn");
+            EditorGUILayout.PropertyField(allowObjectsToSpawn);
+
+            if (allowObjectsToSpawn.boolValue)
+            {
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("objectLocations"));
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("maxObjectsCount"));
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("minObjectsCount"));
+            }
+
+        }
+
         void DisplayEnemyInfo()
         {
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("gizmoSize"));
+            
             SerializedProperty allowEnemySpawn = serializedObject.FindProperty("allowEnemiesToSpawn");
             EditorGUILayout.PropertyField(allowEnemySpawn);
 
@@ -94,12 +117,15 @@ namespace DungeonGenerator
             EditorGUILayout.PropertyField(serializedObject.FindProperty("doorPrefab"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("doorOffset"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("doorRotationOffset"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("doorCenterOffset"));
 
             EditorGUILayout.Space();
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty("wallPrefab"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("wallPosOffset"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("wallRotationOffset"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("wallCenterOffset"));
+
         }
 
     }

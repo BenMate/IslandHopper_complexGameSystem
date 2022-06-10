@@ -24,6 +24,19 @@ namespace DungeonGenerator
         [Tooltip("changes the size of the gizmos")]
         public float gizmoSize = 0.2f;
 
+        //objects
+        [Tooltip("List of Objects to Spawn Locations")]
+        public List<Vector3> objectLocations = new List<Vector3>();
+
+        [Tooltip("Allows Objects to spawn")]
+        public bool allowObjectsToSpawn = true;
+
+        [Tooltip("Min Number of objects per Room That Can Spawn")]
+        public int minObjectsCount;
+
+        [Tooltip("Max Number of objects per Room That Can Spawn")]
+        public int maxObjectsCount;
+
         //items
         [Tooltip("List of Item Spawn Locations")]
         public List<Vector3> itemLocations = new List<Vector3>();
@@ -40,26 +53,34 @@ namespace DungeonGenerator
         //doors
         [Tooltip("The door will spawn on the edge. All Doors are the same size")]
         public GameObject doorPrefab;
+
         [Tooltip("Changes the Offset of the Doors Spawn")]
         public Vector3 doorOffset;
+
         [Tooltip("Changes the Rotation of the Doors Spawn")]
         public Vector3 doorRotationOffset;
+
+        [Tooltip("Moves the prefabs back and forth towards the center")]
+        public float doorCenterOffset;
 
         List<Vector3> posList = new List<Vector3>();
 
         public void GenerateDoors(Transform parent = null)
         {
+            if (doorPrefab == null)
+                return;
+            
             if (forward)
-                Instantiate(doorPrefab, transform.position + Vector3.forward * boundsSize.z / 2 + doorOffset, Quaternion.Euler(doorRotationOffset.x, doorRotationOffset.y + 180, doorRotationOffset.z), parent.transform);
+                Instantiate(doorPrefab, transform.position + Vector3.forward * (boundsSize.z / 2 + doorCenterOffset) + doorOffset, Quaternion.Euler(doorRotationOffset.x, doorRotationOffset.y + 180, doorRotationOffset.z), parent.transform);
 
             if (back)
-                Instantiate(doorPrefab, transform.position + Vector3.back * boundsSize.z / 2 + doorOffset, Quaternion.Euler(doorRotationOffset.x, doorRotationOffset.y, doorRotationOffset.z), parent.transform);
+                Instantiate(doorPrefab, transform.position + Vector3.back * (boundsSize.z / 2 + doorCenterOffset) + doorOffset, Quaternion.Euler(doorRotationOffset.x, doorRotationOffset.y, doorRotationOffset.z), parent.transform);
 
             if (left)
-                Instantiate(doorPrefab, transform.position + Vector3.left * boundsSize.x / 2 + doorOffset, Quaternion.Euler(doorRotationOffset.x, doorRotationOffset.y + 90, doorRotationOffset.z), parent.transform);
+                Instantiate(doorPrefab, transform.position + Vector3.left * (boundsSize.x / 2 + doorCenterOffset) + doorOffset, Quaternion.Euler(doorRotationOffset.x, doorRotationOffset.y + 90, doorRotationOffset.z), parent.transform);
 
             if (right)
-                Instantiate(doorPrefab, transform.position + Vector3.right * boundsSize.x / 2 + doorOffset, Quaternion.Euler(doorRotationOffset.x, doorRotationOffset.y + 270, doorRotationOffset.z), parent.transform);
+                Instantiate(doorPrefab, transform.position + Vector3.right * (boundsSize.x / 2 + doorCenterOffset) + doorOffset, Quaternion.Euler(doorRotationOffset.x, doorRotationOffset.y + 270, doorRotationOffset.z), parent.transform);
         }
 
         public void SpawnEnemyPrefabs(GameObject[] enemies, Transform parent = null)
@@ -104,6 +125,27 @@ namespace DungeonGenerator
             }     
         }
 
+        public void SpawnObjectPrefabs(GameObject[] objects, Transform parent = null)
+        {
+            posList = objectLocations;
+
+            if (posList.Count == 0 || objects.Length == 0 || !allowObjectsToSpawn)
+                return;
+
+            //spawn a random item at a random position, shrink list
+            for (int i = 0; i < Random.Range(minObjectsCount, maxObjectsCount); i++)
+            {
+                int randomIndex = Random.Range(0, posList.Count);
+                GameObject randObject = objects[Random.Range(0, objects.Length)];
+                Vector3 randomPos = posList[randomIndex];
+
+                posList.RemoveAt(randomIndex);
+
+                GameObject objectPrefab = Instantiate(randObject, parent);
+                objectPrefab.transform.position = randomPos + transform.position;
+            }
+        }
+
         void OnDrawGizmos()
         {
             //draw the bounds
@@ -124,7 +166,15 @@ namespace DungeonGenerator
             {
                 Vector3 itemPos = new Vector3(itemLocations[i].x, itemLocations[i].y, itemLocations[i].z);
                 Gizmos.DrawSphere(transform.position + itemPos, gizmoSize);
-            } 
+            }
+
+            //draw object spawns
+            Gizmos.color = Color.gray;
+            for (int i = 0; i < objectLocations.Count; i++)
+            {
+                Vector3 itemPos = new Vector3(objectLocations[i].x, objectLocations[i].y, objectLocations[i].z);
+                Gizmos.DrawSphere(transform.position + itemPos, gizmoSize);
+            }
         }
     }
 }

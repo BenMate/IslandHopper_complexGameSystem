@@ -294,7 +294,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1761576879}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 50, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -364,14 +364,14 @@ MonoBehaviour:
   seed: 25
   randomSeed: 1
   GenerateDeadEnds: 0
-  minRoomGap: 27
-  roomCount: 7
-  roomChance: 80
+  minRoomGap: 5.5
+  roomCount: 15
+  roomChance: 100
   canBossRoomGenerate: 1
   multipleBossRooms: 0
   useSpawnRoom: 1
   forceCorriderMin: 1
-  corridorLength: 10
+  corridorLength: 50
   maxCorridorIntersections: 2
   CorridorRotationOffset: 0
   genSpeed: 1
@@ -399,60 +399,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &2127303079268285878
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2860412637211707714, guid: d9e09885971d1d34dbad263536b4c9c6, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2860412637211707714, guid: d9e09885971d1d34dbad263536b4c9c6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 22.272959
-      objectReference: {fileID: 0}
-    - target: {fileID: 2860412637211707714, guid: d9e09885971d1d34dbad263536b4c9c6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 49.058403
-      objectReference: {fileID: 0}
-    - target: {fileID: 2860412637211707714, guid: d9e09885971d1d34dbad263536b4c9c6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 37.319252
-      objectReference: {fileID: 0}
-    - target: {fileID: 2860412637211707714, guid: d9e09885971d1d34dbad263536b4c9c6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2860412637211707714, guid: d9e09885971d1d34dbad263536b4c9c6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2860412637211707714, guid: d9e09885971d1d34dbad263536b4c9c6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2860412637211707714, guid: d9e09885971d1d34dbad263536b4c9c6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2860412637211707714, guid: d9e09885971d1d34dbad263536b4c9c6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2860412637211707714, guid: d9e09885971d1d34dbad263536b4c9c6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2860412637211707714, guid: d9e09885971d1d34dbad263536b4c9c6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6432106396589542062, guid: d9e09885971d1d34dbad263536b4c9c6, type: 3}
-      propertyPath: m_Name
-      value: NoDoor
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d9e09885971d1d34dbad263536b4c9c6, type: 3}

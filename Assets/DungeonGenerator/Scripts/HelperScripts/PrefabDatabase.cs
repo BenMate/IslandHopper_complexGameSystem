@@ -12,6 +12,7 @@ namespace DungeonGenerator
         public GameObject[] allBosses;
         public DungeonRoom[] bossRooms;
         public GameObject[] allItems;
+        public GameObject[] allObjects;
 
         public DungeonRoom spawnDungeonRoom;
         public DungeonArea corridorDungeonIntersection;
@@ -24,6 +25,7 @@ namespace DungeonGenerator
         public string bossRoom;
         public string items;
         public string bossEnemies;
+        public string objects;
 
         public string spawnRoom;
         public string corridorIntersection;
@@ -36,6 +38,7 @@ namespace DungeonGenerator
         public string defaultbossRoomPath = "RoomFolder/BossRoom";
         public string defaultItemsPath = "Items";
         public string defaultBossEnemiesPath = "Enemies/BossEnemy";
+        public string defaultObjectsPath = "Objects";
 
         public string defaultSpawnRoomPath = "RoomFolder/SpawnRoom";
         public string defaultCorridorIntersectionPath = "RoomFolder/CorridorIntersection";
@@ -51,6 +54,7 @@ namespace DungeonGenerator
             allEnemies = Resources.LoadAll<GameObject>(enemies);
             allItems = Resources.LoadAll<GameObject>(items);
             allBosses = Resources.LoadAll<GameObject>(bossEnemies);
+            allObjects = Resources.LoadAll<GameObject>(objects);
 
             //load first Prefab inside folder
             DungeonRoom[] spawnTemp = Resources.LoadAll<DungeonRoom>(spawnRoom);
@@ -76,6 +80,9 @@ namespace DungeonGenerator
                 Debug.Log("PrefabDatabase - Could not find any Item Prefab - Inside 'Items' Folder");
             if (allBosses.Length == 0)
                 Debug.Log("PrefabDatabase - Could not find any Boss Enemy Prefabs - Inside 'BossEnemy' Folder");
+            if (allObjects.Length == 0)
+                Debug.Log("PrefabDatabase - Could not find any Object Prefab - Inside 'Objects' Folder");
+
             if (spawnDungeonRoom == null)
                 Debug.Log("PrefabDatabase - Could not find any Prefabs with 'DungeonRoom' Scirpt Attached - Inside 'SpawnRoom' Folder");
             if (CorridorDungeonSegments == null)

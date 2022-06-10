@@ -15,6 +15,10 @@ namespace DungeonGenerator
         [Tooltip("Adjusts the Rotation of the Wall Spawn")]
         public Vector3 wallRotationOffset;
 
+        [Tooltip("Moves the wall closer to the center")]
+        public float wallCenterOffset;
+
+
         protected bool left, right, back, forward;
 
         public void SetCorridorDirection(Vector3 direction)
@@ -31,24 +35,23 @@ namespace DungeonGenerator
 
         public void GenerateWalls(Transform parent = null)
         {
-
             if (wallPrefab == null)
                 return;
 
             if (!forward)
-                Instantiate(wallPrefab, transform.position + Vector3.forward * boundsSize.z / 2 + wallPosOffset,
+                Instantiate(wallPrefab, transform.position + Vector3.forward * (boundsSize.z / 2 + wallCenterOffset) + wallPosOffset,
                     Quaternion.Euler(wallRotationOffset.x, 180 + wallRotationOffset.y, wallRotationOffset.z), parent.transform);
 
             if (!back)
-                Instantiate(wallPrefab, transform.position + Vector3.back * boundsSize.z / 2 + wallPosOffset,
+                Instantiate(wallPrefab, transform.position + Vector3.back * (boundsSize.z / 2 + wallCenterOffset) + wallPosOffset,
                     Quaternion.Euler(wallRotationOffset.x, wallRotationOffset.y, wallRotationOffset.z), parent.transform);
 
             if (!left)
-                Instantiate(wallPrefab, transform.position + Vector3.left * boundsSize.x / 2 + wallPosOffset,
+                Instantiate(wallPrefab, transform.position + Vector3.left * (boundsSize.x / 2 + wallCenterOffset) + wallPosOffset,
                      Quaternion.Euler(wallRotationOffset.x, 90 + wallRotationOffset.y, wallRotationOffset.z), parent.transform);
 
             if (!right)
-                Instantiate(wallPrefab, transform.position + Vector3.right * boundsSize.x / 2 + wallPosOffset,
+                Instantiate(wallPrefab, transform.position + Vector3.right * (boundsSize.x / 2 + wallCenterOffset) + wallPosOffset,
                    Quaternion.Euler(wallRotationOffset.x, 270 + wallRotationOffset.y, wallRotationOffset.z), parent.transform);
         }
 

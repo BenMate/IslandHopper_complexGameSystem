@@ -36,9 +36,7 @@ namespace DungeonGenerator
 
         [Tooltip("if you Want to use the Spawn Room")]
         public bool useSpawnRoom = true;
-        /// <summary>
-        /// ///
-        /// </summary>
+
         //corridor
         [Tooltip("Clamps Corridors Length to the Rooms Size, Helps Prevent Rooms from Touching")]
         public bool forceCorriderMin = false;
@@ -66,6 +64,7 @@ namespace DungeonGenerator
         public string bossRoomFilepath;
         public string itemsFilepath;
         public string bossEnemiesFilepath;
+        public string objectsFilepath;
 
         public string spawnRoomFilepath;
         public string corridorIntersectionFilepath;
@@ -83,11 +82,13 @@ namespace DungeonGenerator
 
         PrefabDatabase database = new PrefabDatabase();
 
+        //containers
         GameObject roomContainer;
         GameObject enemyContainer;
         GameObject corridorContainer;
         GameObject doorContainer;
         GameObject itemContainer;
+        GameObject objectContainer;
 
         void Start()
         {
@@ -111,10 +112,12 @@ namespace DungeonGenerator
             database.bossRoom = useDefaultFilePaths ? database.defaultbossRoomPath : bossRoomFilepath;
             database.items = useDefaultFilePaths ? database.defaultItemsPath : itemsFilepath;
             database.bossEnemies = useDefaultFilePaths ? database.defaultBossEnemiesPath : bossEnemiesFilepath;
+            database.objects = useDefaultFilePaths ? database.defaultObjectsPath : objectsFilepath;
 
             database.spawnRoom = useDefaultFilePaths ? database.defaultSpawnRoomPath : spawnRoomFilepath;
             database.corridorIntersection = useDefaultFilePaths ? database.defaultCorridorIntersectionPath : corridorIntersectionFilepath;
             database.corridorSegments = useDefaultFilePaths ? database.defaultCorridorSegmentPath : corridorSegmentsFilepath;
+
 
             database.LoadPrefabs();
         }
@@ -126,6 +129,7 @@ namespace DungeonGenerator
             corridorContainer = new GameObject("Dungeon Corridors");
             doorContainer = new GameObject("Dungeon Doors");
             itemContainer = new GameObject("Dungeon Items");
+            objectContainer = new GameObject("Dungeon Objects");
         }
 
         int GenerateRandomSeed()
@@ -240,10 +244,14 @@ namespace DungeonGenerator
                     DungeonRoom room = Instantiate(database.allRooms[Random.Range(0, database.allRooms.Length)], node.position, Quaternion.identity, roomContainer.transform);
                     node.area = room;
 
-                    room.SpawnEnemyPrefabs(database.allEnemies, enemyContainer.transform);
-                    room.SpawnItemPrefabs(database.allItems, itemContainer.transform);
+                    if (room.allowBossSpawns)
+                        room.SpawnEnemyPrefabs(database.allBosses, enemyContainer.transform);
+                    if (room.allowItemsToSpawn)
+                        room.SpawnItemPrefabs(database.allItems, itemContainer.transform);
+                    if (room.allowObjectsToSpawn)
+                        room.SpawnObjectPrefabs(database.allObjects, objectContainer.transform);
                 }
-                
+
             }
 
             //dead ends can generate boss room
@@ -257,9 +265,13 @@ namespace DungeonGenerator
                 DungeonRoom bRoom = Instantiate(database.bossRooms[Random.Range(0, database.bossRooms.Length)], node.position, Quaternion.identity, roomContainer.transform);
                 node.area = bRoom;
 
+                //spawn prefabs
                 if (bRoom.allowBossSpawns)
                     bRoom.SpawnEnemyPrefabs(database.allBosses, enemyContainer.transform);
-                bRoom.SpawnItemPrefabs(database.allItems, itemContainer.transform);
+                if (bRoom.allowItemsToSpawn)
+                    bRoom.SpawnItemPrefabs(database.allItems, itemContainer.transform);
+                if (bRoom.allowObjectsToSpawn)
+                    bRoom.SpawnObjectPrefabs(database.allObjects, objectContainer.transform);
             }
 
             //generate the room if the array isnt empty
@@ -269,8 +281,12 @@ namespace DungeonGenerator
 
                 node.area = room;
 
-                room.SpawnEnemyPrefabs(database.allEnemies, enemyContainer.transform);
-                room.SpawnItemPrefabs(database.allItems, itemContainer.transform);
+                if (room.allowBossSpawns)
+                    room.SpawnEnemyPrefabs(database.allBosses, enemyContainer.transform);
+                if (room.allowItemsToSpawn)
+                    room.SpawnItemPrefabs(database.allItems, itemContainer.transform);
+                if (room.allowObjectsToSpawn)
+                    room.SpawnObjectPrefabs(database.allObjects, objectContainer.transform);
             }
 
             //generate corridorIntersection
@@ -294,9 +310,10 @@ namespace DungeonGenerator
                 //loop through each prefab set corrdorlength to be the highest x or z
                 int maxLength = 0;
 
-                if (database.allRooms.Length == 0)
+                if (database.allRooms.Length == 0 || database.spawnDungeonRoom == null || database.bossRoom.Length == 0)
                     return;
 
+                //check islands
                 for (int i = 0; i < database.allRooms.Length; i++)
                 {
                     Vector3 scale = database.allRooms[i].boundsSize;
@@ -306,6 +323,26 @@ namespace DungeonGenerator
                     else
                         maxLength = (int)(scale.x > maxLength ? scale.x + minRoomGap : maxLength);
                 }
+
+                //check spawn island
+                Vector3 spawnScale = database.spawnDungeonRoom.boundsSize;
+
+                if (spawnScale.z > spawnScale.x)
+                    maxLength = (int)(spawnScale.z > maxLength ? spawnScale.z + minRoomGap : maxLength);
+                else
+                    maxLength = (int)(spawnScale.x > maxLength ? spawnScale.x + minRoomGap : maxLength);
+
+                //check boss rooms
+                for (int i = 0; i < database.bossRooms.Length; i++)
+                {
+                    Vector3 bossScale = database.bossRooms[i].boundsSize;
+
+                    if (bossScale.z > bossScale.x)
+                        maxLength = (int)(bossScale.z > maxLength ? bossScale.z + minRoomGap : maxLength);
+                    else
+                        maxLength = (int)(bossScale.x > maxLength ? bossScale.x + minRoomGap : maxLength);
+                }
+
                 corridorLength = maxLength;
             }
         }
@@ -331,7 +368,7 @@ namespace DungeonGenerator
                 Vector3 childPosOffset = child.position + child.area.boundsOffset;
                 Vector3 childPosSize = child.area.boundsSize;
 
-                //make the offset y = 0 to keep on the same level
+                //gain the xz offsets
                 Vector3 nodeXZOffset = new Vector3(nodePosOffset.x, gameObject.transform.position.y, nodePosOffset.z);
                 nodeXZOffset += Vector3.Scale(dir, nodePosSize) / 2;
 
