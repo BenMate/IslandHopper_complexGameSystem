@@ -118,17 +118,21 @@ namespace DungeonGenerator
             database.corridorIntersection = useDefaultFilePaths ? database.defaultCorridorIntersectionPath : corridorIntersectionFilepath;
             database.corridorSegments = useDefaultFilePaths ? database.defaultCorridorSegmentPath : corridorSegmentsFilepath;
 
-
             database.LoadPrefabs();
         }
 
         void GenerateContainers()
         {
             roomContainer = new GameObject("Dungeon Rooms");
+
             enemyContainer = new GameObject("Dungeon Enemies");
+
             corridorContainer = new GameObject("Dungeon Corridors");
+
             doorContainer = new GameObject("Dungeon Doors");
+
             itemContainer = new GameObject("Dungeon Items");
+
             objectContainer = new GameObject("Dungeon Objects");
         }
 
