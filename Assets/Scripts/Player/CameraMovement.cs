@@ -11,23 +11,21 @@ public class CameraMovement : MonoBehaviour
 
     public float clampOffset = 90.0f;
 
-    public Transform playerBody;
+    public Transform target;
     float xRotation;
 
     void Start()
     {
-        //lock mouse
+        //lock Mouse
         Cursor.lockState = CursorLockMode.Locked;
-        //start camera in players pos
-        transform.position = new Vector3(playerBody.transform.localPosition.x + xOffset, playerBody.transform.localPosition.y + yOffSet, playerBody.transform.localPosition.z + zOffset);
+
+        transform.localPosition = new Vector3(target.transform.localPosition.x + xOffset, target.transform.localPosition.y + yOffSet, target.transform.localPosition.z + zOffset);
 
     }
 
     void Update()
     {
-        //be able to update cameras pos
-        transform.localPosition = new Vector3(xOffset, yOffSet, zOffset);
-
+        transform.localPosition = new Vector3(target.transform.localPosition.x + xOffset, target.transform.localPosition.y + yOffSet, target.transform.localPosition.z + zOffset);
 
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
@@ -36,6 +34,6 @@ public class CameraMovement : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -clampOffset, clampOffset);
 
         transform.localRotation = Quaternion.Euler(xRotation, 0.0f, 0.0f);
-        playerBody.Rotate(Vector3.up * mouseX);
+        target.Rotate(Vector3.up * mouseX);
     }
 }

@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
 
         animator.SetFloat("MoveX", currentAnimationBlendVec.x);
         animator.SetFloat("MoveZ", currentAnimationBlendVec.y);
-        animator.SetBool("isIdle", moveInput.x == 0 && moveInput.y == 0);
+        animator.SetBool("isIdle", currentAnimationBlendVec.x == 0 && currentAnimationBlendVec.y == 0);
     }
 
     void FixedUpdate()
@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move;
         move = moveSpeed * Time.fixedDeltaTime * (currentAnimationBlendVec.x * transform.right + currentAnimationBlendVec.y * transform.forward);
 
-        if (isGrounded || moveInput.x != 0 || moveInput.y != 0)
+        if (isGrounded || currentAnimationBlendVec.x != 0 || currentAnimationBlendVec.y != 0)
         {
             velocity.x = move.x;
             velocity.z = move.z;
@@ -70,11 +70,12 @@ public class PlayerMovement : MonoBehaviour
         //apply gravity
         velocity += Physics.gravity * Time.fixedDeltaTime;
 
+        //if we are not grounded, dont scan below the player
         if (!isGrounded)
             hitDirection = Vector3.zero;
 
         // slide objects off surfaces they're hanging on to 
-        if (moveInput.x == 0 && moveInput.y == 0)
+        if (currentAnimationBlendVec.x == 0 && currentAnimationBlendVec.y == 0)
         {
             Vector3 horizontalHitDirection = hitDirection;
             horizontalHitDirection.y = 0;
