@@ -20,15 +20,7 @@ public class CameraMovement : MonoBehaviour
     }
 
     void Update()
-    {
-        //transform.localPosition = new Vector3(target.transform.localPosition.x + offset.x, target.transform.localPosition.y + offset.y, target.transform.localPosition.z + offset.z);
-
-        Vector3 desiredPos = target.position + offset;
-        Vector3 smoothedPos = Vector3.Lerp(transform.position, desiredPos, smoothSpeed);
-        transform.position = smoothedPos;
-
-        transform.LookAt(target);
-
+    { 
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
@@ -41,7 +33,11 @@ public class CameraMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-       
+        Vector3 desiredPos = target.position + offset;
+        Vector3 smoothedPos = Vector3.Lerp(transform.position, desiredPos, smoothSpeed);
+        transform.position = smoothedPos;
+
+        transform.LookAt(target);
     }
 
 }

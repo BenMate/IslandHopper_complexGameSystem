@@ -6,20 +6,28 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 10.0f;
+    //public float sprintSpeed = 20.0f;
+    public float rotationSpeed = 2.0f;
+    public float moveSpeed = 5.0f;
+
     public float pushPower = 2.0f;
-    public bool isGrounded = false;
+    public float jumpPower = 1.0f;
 
-    public float acceleration;
-    public Vector3 velocity = new Vector3();
-    public Vector3 hitDirection;
+    public float animationSmoothTime = 0.1f;
 
-    [SerializeField]
-    float animationSmoothTime = 0.1f;
+    public Transform cam;
+
+    bool isGrounded;
+    bool isJumping;
+    bool attacking;
+
+    Vector3 movement;
 
     CharacterController cc;
     Animator animator;
 
+    Vector3 velocity = new Vector3();
+    Vector3 hitDirection;
     Vector2 moveInput;
     Vector2 currentAnimationBlendVec;
     Vector2 AnimationVel;
@@ -34,40 +42,37 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //character controller info
-        moveInput.x = Input.GetAxis("Horizontal");
-        moveInput.y = Input.GetAxis("Vertical");
+        UserInput();
 
-        //animator info
-        currentAnimationBlendVec = Vector2.SmoothDamp(currentAnimationBlendVec, moveInput, ref AnimationVel, animationSmoothTime);
-
-        animator.SetFloat("MoveX", currentAnimationBlendVec.x);
-        animator.SetFloat("MoveZ", currentAnimationBlendVec.y);
-        animator.SetBool("isIdle", currentAnimationBlendVec.x == 0 && currentAnimationBlendVec.y == 0);
-    }
-
-    void FixedUpdate()
-    {
-        //move character with wasd
-        Vector3 move;
-        move = moveSpeed * Time.fixedDeltaTime * (currentAnimationBlendVec.x * transform.right + currentAnimationBlendVec.y * transform.forward);
-
-        if (isGrounded || currentAnimationBlendVec.x != 0 || currentAnimationBlendVec.y != 0)
-        {
-            velocity.x = move.x;
-            velocity.z = move.z;
-        }
+        //check if grounded
+        isGrounded = cc.isGrounded;
 
         // check if we've hit ground from falling. If so, remove our velocity 
         if (isGrounded && velocity.y < 0)
-            velocity.y = 0;
+        {
+            velocity.y = 0f;
+            isJumping = false;
+        }
 
         //apply gravity
-        velocity += Physics.gravity * Time.fixedDeltaTime;
+        velocity += Physics.gravity * Time.deltaTime;
 
         //if we are not grounded, dont scan below the player
         if (!isGrounded)
             hitDirection = Vector3.zero;
+
+
+        //if we are not grounded, dont scan below the player
+        movement = moveSpeed * Time.deltaTime * (moveInput.x * transform.right + moveInput.y * transform.forward);
+
+
+
+        //grounded and moving update values
+        if (isGrounded || currentAnimationBlendVec.x != 0 || currentAnimationBlendVec.y != 0)
+        {
+            velocity.x = movement.x;
+            velocity.z = movement.z;
+        }
 
         // slide objects off surfaces they're hanging on to 
         if (currentAnimationBlendVec.x == 0 && currentAnimationBlendVec.y == 0)
@@ -79,11 +84,53 @@ public class PlayerMovement : MonoBehaviour
                 velocity -= 0.2f * horizontalHitDirection / displacement;
         }
 
-        move += velocity * Time.fixedDeltaTime;
-
-        cc.Move(move);
-        isGrounded = cc.isGrounded; 
+        movement += velocity * Time.deltaTime;
+        cc.Move(movement);
     }
+
+    void UserInput()
+    {
+        //character controller info
+        moveInput.x = Input.GetAxis("Horizontal");
+        moveInput.y = Input.GetAxis("Vertical");
+
+        //animator info
+        currentAnimationBlendVec = Vector2.SmoothDamp(currentAnimationBlendVec, moveInput, ref AnimationVel, animationSmoothTime);
+
+        animator.SetFloat("MoveX", currentAnimationBlendVec.x);
+        animator.SetFloat("MoveZ", currentAnimationBlendVec.y);
+        animator.SetBool("Jump", isJumping);
+        animator.SetBool("Attack", attacking);
+
+        //if player tries to jump
+        if (isGrounded && Input.GetButtonDown("Jump"))
+        {
+            velocity.y = Mathf.Sqrt(jumpPower * -2.0f * Physics.gravity.y);
+            isJumping = true;
+        }
+
+        //rotate player
+        if (Input.GetMouseButton(1) || !isGrounded)
+            transform.rotation = transform.rotation;
+        else
+            transform.rotation = Quaternion.LookRotation(new Vector3(cam.transform.forward.x, 0, cam.transform.forward.z));
+
+        //attacking
+        attacking = Input.GetMouseButtonDown(0);
+
+
+
+    }
+
+    //hides the curser when focised
+    private void OnApplicationFocus(bool focus)
+    {
+        if (focus)
+            Cursor.lockState = CursorLockMode.Locked;
+        else
+            Cursor.lockState = CursorLockMode.None;
+    }
+
 
     //send a raycast under the player to slide
     void OnControllerColliderHit(ControllerColliderHit hit)
