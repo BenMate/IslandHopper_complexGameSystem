@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
     public float moveSpeed = 10.0f;
     public float pushPower = 2.0f;
     public bool isGrounded = false;
@@ -22,7 +21,6 @@ public class PlayerMovement : MonoBehaviour
     Animator animator;
 
     Vector2 moveInput;
-
     Vector2 currentAnimationBlendVec;
     Vector2 AnimationVel;
 
@@ -36,14 +34,11 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
         //character controller info
         moveInput.x = Input.GetAxis("Horizontal");
         moveInput.y = Input.GetAxis("Vertical");
 
         //animator info
-
         currentAnimationBlendVec = Vector2.SmoothDamp(currentAnimationBlendVec, moveInput, ref AnimationVel, animationSmoothTime);
 
         animator.SetFloat("MoveX", currentAnimationBlendVec.x);

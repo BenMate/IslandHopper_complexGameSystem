@@ -226,7 +226,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1822235305}
   - component: {fileID: 1822235304}
-  - component: {fileID: 1822235306}
   m_Layer: 0
   m_Name: DungeonGenerator
   m_TagString: Untagged
@@ -285,16 +284,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1822235306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1822235303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c86ef77ac8a876042b5ce45a68dffee4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 4088737457581062231, guid: 1105e4e7433e76644a512ad84b050786, type: 3}
