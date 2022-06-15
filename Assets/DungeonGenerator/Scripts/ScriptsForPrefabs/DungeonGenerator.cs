@@ -235,6 +235,8 @@ namespace DungeonGenerator
             if (genSpeed < 1.0f)
                 yield return new WaitForSeconds(1.0f - genSpeed);
 
+            //todo if you have time - turn this into a switch statement ---------------------------
+
             //generate spawn room if they have provided a prefab if not spawn a normal room
             if (node.parent == null)
             {
@@ -243,11 +245,15 @@ namespace DungeonGenerator
                     DungeonRoom spawn = Instantiate(database.spawnDungeonRoom, node.position, Quaternion.identity, roomContainer.transform);
                     node.area = spawn;
                 }
-                else if (database.bossRooms.Length != 0)
+
+                //generate room if spawn room isnt picked
+                else if (database.allRooms.Length != 0)
                 {
                     DungeonRoom room = Instantiate(database.allRooms[Random.Range(0, database.allRooms.Length)], node.position, Quaternion.identity, roomContainer.transform);
                     node.area = room;
 
+                    if (room.allowEnemiesToSpawn)
+                        room.SpawnEnemyPrefabs(database.allEnemies, enemyContainer.transform);
                     if (room.allowBossSpawns)
                         room.SpawnEnemyPrefabs(database.allBosses, enemyContainer.transform);
                     if (room.allowItemsToSpawn)
@@ -255,7 +261,6 @@ namespace DungeonGenerator
                     if (room.allowObjectsToSpawn)
                         room.SpawnObjectPrefabs(database.allObjects, objectContainer.transform);
                 }
-
             }
 
             //dead ends can generate boss room
@@ -270,6 +275,8 @@ namespace DungeonGenerator
                 node.area = bRoom;
 
                 //spawn prefabs
+                if (bRoom.allowEnemiesToSpawn)
+                    bRoom.SpawnEnemyPrefabs(database.allEnemies, enemyContainer.transform);
                 if (bRoom.allowBossSpawns)
                     bRoom.SpawnEnemyPrefabs(database.allBosses, enemyContainer.transform);
                 if (bRoom.allowItemsToSpawn)
@@ -285,6 +292,8 @@ namespace DungeonGenerator
 
                 node.area = room;
 
+                if (room.allowEnemiesToSpawn)
+                    room.SpawnEnemyPrefabs(database.allEnemies, enemyContainer.transform);
                 if (room.allowBossSpawns)
                     room.SpawnEnemyPrefabs(database.allBosses, enemyContainer.transform);
                 if (room.allowItemsToSpawn)

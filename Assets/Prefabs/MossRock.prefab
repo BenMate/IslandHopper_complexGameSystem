@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 958311863707281770}
   - component: {fileID: 4243305665379935951}
   - component: {fileID: 2091842091671835141}
-  - component: {fileID: 4720804159005054745}
+  - component: {fileID: 2610484618992100876}
   m_Layer: 0
   m_Name: MossRock
   m_TagString: Untagged
@@ -82,8 +82,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &4720804159005054745
-SphereCollider:
+--- !u!65 &2610484618992100876
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -93,5 +93,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2.601321
+  m_Size: {x: 5.059658, y: 3.8880832, z: 5.202642}
   m_Center: {x: 0.06695306, y: 1.7656385, z: -0.15435362}
