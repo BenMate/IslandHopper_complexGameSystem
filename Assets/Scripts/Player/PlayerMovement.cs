@@ -117,9 +117,6 @@ public class PlayerMovement : MonoBehaviour
 
         //attacking
         attacking = Input.GetMouseButtonDown(0);
-
-
-
     }
 
     //hides the curser when focised
