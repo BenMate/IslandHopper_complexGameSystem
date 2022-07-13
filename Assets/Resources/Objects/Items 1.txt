@@ -1,0 +1,6 @@
+Place all 'Object' Prefabs Inside this Folder. It will add it to a list to be used inside the Dungeon Generator.
+
+Note: 
+Object Prefabs are just GameObjects.
+You can spawn them with your own scripts attached.
+You tell each room how many Objects to spawn ands where.

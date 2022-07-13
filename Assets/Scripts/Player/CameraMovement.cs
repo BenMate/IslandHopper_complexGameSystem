@@ -20,7 +20,7 @@ public class CameraMovement : MonoBehaviour
     }
 
     void Update()
-    { 
+    {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 

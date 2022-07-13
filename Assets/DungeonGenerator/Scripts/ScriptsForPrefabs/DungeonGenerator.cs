@@ -503,6 +503,11 @@ namespace DungeonGenerator
             }
         }
 
+        public int GetRoomCount()
+        {
+            return roomCount;
+        } 
+
         void OnDrawGizmos()
         {
             if (root != null)

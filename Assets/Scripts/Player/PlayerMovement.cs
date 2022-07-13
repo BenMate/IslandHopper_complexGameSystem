@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof((CharacterController, Animator)))]
 
@@ -42,6 +43,14 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //i dont have enough time to create a pause state so
+        //im just removing this script so you cant move once you have won.
+        //reseting the game gives you control again
+        if (CoinManager.Instance.EnoughCoinsCollected())
+            Destroy(this);
+
+        TempHeightCheck();
+
         UserInput();
 
         //check if grounded
@@ -61,11 +70,8 @@ public class PlayerMovement : MonoBehaviour
         if (!isGrounded)
             hitDirection = Vector3.zero;
 
-
         //if we are not grounded, dont scan below the player
         movement = moveSpeed * Time.deltaTime * (moveInput.x * transform.right + moveInput.y * transform.forward);
-
-
 
         //grounded and moving update values
         if (isGrounded || currentAnimationBlendVec.x != 0 || currentAnimationBlendVec.y != 0)
@@ -119,17 +125,24 @@ public class PlayerMovement : MonoBehaviour
         attacking = Input.GetMouseButtonDown(0);
     }
 
-    //hides the curser when focised
-    private void OnApplicationFocus(bool focus)
+    public void TempHeightCheck()
     {
-        if (focus)
-            Cursor.lockState = CursorLockMode.Locked;
-        else
-            Cursor.lockState = CursorLockMode.None;
+        //temp height check to reset game.
+        if (this.gameObject.transform.position.y < GameManager.Instance.deathHeight)
+            SceneManager.LoadScene("Game"); 
     }
 
+    //hides the curser when focised
+    void OnApplicationFocus(bool focus)
+    {
+        //if the mouse is off screen or player has enough coins unlock mouse
+        if (!focus)
+            Cursor.lockState = CursorLockMode.None;
+        else
+            Cursor.lockState = CursorLockMode.Locked;
+    }
 
-    //send a raycast under the player to slide
+    //send a raycast under the player to slide if they have a rigid body
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         hitDirection = hit.point - transform.position;

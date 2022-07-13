@@ -82,7 +82,6 @@ namespace DungeonGenerator
                 Debug.Log("PrefabDatabase - Could not find any Boss Enemy Prefabs - Inside 'BossEnemy' Folder");
             if (allObjects.Length == 0)
                 Debug.Log("PrefabDatabase - Could not find any Object Prefab - Inside 'Objects' Folder");
-
             if (spawnDungeonRoom == null)
                 Debug.Log("PrefabDatabase - Could not find any Prefabs with 'DungeonRoom' Scirpt Attached - Inside 'SpawnRoom' Folder");
             if (CorridorDungeonSegments == null)
