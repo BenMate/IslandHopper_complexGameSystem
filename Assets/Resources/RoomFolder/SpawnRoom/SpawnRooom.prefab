@@ -570,7 +570,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boundsOffset: {x: 0, y: 0, z: 0}
   boundsSize: {x: 60, y: 2, z: 60}
-  wallPrefab: {fileID: 0}
+  wallPrefab: {fileID: 2621806791931319239, guid: dc06582855422394db52a35097acd659, type: 3}
   wallPosOffset: {x: 0, y: 0, z: 0}
   wallRotationOffset: {x: 0, y: 0, z: 0}
   wallCenterOffset: 0
@@ -588,7 +588,7 @@ MonoBehaviour:
   allowItemsToSpawn: 0
   minItemCount: 3
   maxItemCount: 8
-  doorPrefab: {fileID: 0}
+  doorPrefab: {fileID: 2621806791931319239, guid: dc06582855422394db52a35097acd659, type: 3}
   doorOffset: {x: 0, y: 0, z: 0}
   doorRotationOffset: {x: 0, y: 0, z: 0}
   doorCenterOffset: 0
