@@ -1,0 +1,71 @@
+[33mcommit 0504ffa3acc5c82452d5f31407c148e756811969[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: BenMate <benscott98@hotmail.com>
+Date:   Sun Jul 24 15:43:05 2022 +1000
+
+    final build
+
+[33mcommit 70d6e834058829855e4833cc5be6913582c9bcf8[m
+Author: BenMate <benscott98@hotmail.com>
+Date:   Wed Jul 13 19:41:25 2022 +1000
+
+    games done
+
+[33mcommit db6f3f18e0648acde46bc21a1fe49d2b72d98652[m
+Author: BenMate <benscott98@hotmail.com>
+Date:   Sun Jun 19 21:48:24 2022 +1000
+
+    finished intersection, only thing to add are coins, boss enemy/room and docs
+
+[33mcommit 736c60c4a31389872e21c437f287e378f1cb76a4[m
+Author: BenMate <benscott98@hotmail.com>
+Date:   Thu Jun 16 09:39:37 2022 +1000
+
+    need to add enemy animations
+
+[33mcommit 245b0b9fdd6bf7d780fb77d85fe7739e12e9a2ac[m
+Author: BenMate <benscott98@hotmail.com>
+Date:   Mon Jun 13 22:24:24 2022 +1000
+
+    player animations finished
+
+[33mcommit d8bb8d114547256dd490aed47e60a57c54fa7969[m
+Author: BenMate <benscott98@hotmail.com>
+Date:   Mon Jun 13 13:17:57 2022 +1000
+
+    player walking finished
+
+[33mcommit 2bebcc9adb450317d3cab71cce5b8480d51249fa[m
+Author: BenMate <benscott98@hotmail.com>
+Date:   Mon Jun 13 05:22:59 2022 +1000
+
+    fix cam bug
+
+[33mcommit c62e970e7c94d6cf8898d34210ea83410ddf5246[m
+Author: BenMate <benscott98@hotmail.com>
+Date:   Mon Jun 13 04:39:48 2022 +1000
+
+    added aplayer animations
+
+[33mcommit 8e498fbe208de7aea53e05e2623b5f0a83b859b7[m
+Author: BenMate <benscott98@hotmail.com>
+Date:   Sun Jun 12 16:06:18 2022 +1000
+
+    added models
+
+[33mcommit 8a641c51fe13cfbed8f42de63c63373686f7d460[m
+Author: BenMate <benscott98@hotmail.com>
+Date:   Sat Jun 11 00:50:45 2022 +1000
+
+    added lots :)
+
+[33mcommit d9706f9238d9ce0a964e48c74d9734abea8a54bf[m
+Author: BenMate <benscott98@hotmail.com>
+Date:   Thu Jun 9 23:55:48 2022 +1000
+
+    added my own package, have almost everything set up, make game and test scripts
+
+[33mcommit d10d4d13fad14924d73f23a211f7935953c6a1c8[m
+Author: BenMate <benscott98@hotmail.com>
+Date:   Thu Jun 9 13:09:59 2022 +1000
+
+    Initial commit
